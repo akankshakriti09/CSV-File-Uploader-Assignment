@@ -6,7 +6,7 @@ import logoImg from '../images/wolf.png';
 
 function Navbar() {
 
-  const {user, logoutUser} = useContext(AuthContext)
+  const {logoutUser} = useContext(AuthContext)
   const token = localStorage.getItem("authTokens")
 
   if (token){
