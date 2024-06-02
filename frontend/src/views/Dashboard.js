@@ -45,11 +45,13 @@ function Dashboard() {
   const allowedExtensions = ["csv"];
 
   // It will store the file uploaded by the user
-  const [file, setFile] = useState();
-  const fileReader = new FileReader();
+  const [file, setFile] = useState(null);
+  // const fileReader = new FileReader();
 
   // This state will store the parsed data
   const [data, setData] = useState([]);
+  const [columnArray, setColumn] = useState([]);
+  const [values, setValues] = useState([]);
 
   // It state will contain the error when
   // correct file extension is not used
@@ -78,33 +80,34 @@ function Dashboard() {
     }
   };
 
-  const handleParse = () => {
+  const handleParse = (e) => {
+    e.preventDefault();
     // If user clicks the parse button without
     // a file we show a error
     if (!file) return alert("Enter a valid file");
+    console.log(file);
+    Papa.parse(file, {
+      header: true,
+      dynamicTyping: true,
+      complete: function (results) {
+        // setData(results.data.slice(0, 10));
+        const columnArray = [];
+        const valuesArray = [];
 
-    // Initialize a reader which allows user
-    // to read any file or blob.
-    const reader = new FileReader();
-
-    // Event listener on reader when the file
-    // loads, we parse it and set the data.
-    reader.onload = async ({ target }) => {
-      const csv = Papa.parse(target.result, {
-        header: true,
-      });
-      const parsedData = csv?.data;
-      const rows = Object.keys(parsedData[0]);
-
-      const columns = Object.values(parsedData[0]);
-      const res = rows.reduce((acc, e, i) => {
-        return [...acc, [[e], columns[i]]];
-      }, []);
-      console.log(res);
-      setData(res);
-    };
-    reader.readAsText(file);
+        results.data.map((ele) => {
+          columnArray.push(Object.keys(ele));
+          valuesArray.push(Object.values(ele));
+        });
+        setData(results.data);
+        setColumn(columnArray[0]);
+        setValues(valuesArray.slice(0, 10));
+      },
+    });
   };
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <div>
@@ -127,24 +130,50 @@ function Dashboard() {
               <h2 style={{ color: "white", fontSize: "22px" }}>
                 Upload CSV file
               </h2>
-              <form>
+              <form onSubmit={(e) => handleParse(e)}>
                 <input
-                  // type={"file"}
-                  // accept={".csv"}
                   onChange={handleFileChange}
                   id="csvInput"
                   name="file"
                   type="File"
                 />
-                <button onClick={handleParse}>IMPORT CSV</button>
+                <button>IMPORT CSV</button>
                 <div style={{ marginTop: "3rem" }}>
-                  {error
-                    ? error
-                    : data.map((e, i) => (
-                        <div key={i} className="item">
-                          {e[0]}:{e[1]}
-                        </div>
+                  {/* <ul>
+                    {data?.map(ele => (
+                      <li>{ele.EMPLOYEE_ID} | {ele.FIRST_NAME} | {ele.LAST_NAME} | {ele.EMAIL} | {ele.PHONE_NUMBER} | {ele.JOB_ID} |  {ele.SALARY} | {ele.HIRE_DATE} | {ele.MANAGER_ID} </li>
+                    ))}
+                  </ul> */}
+
+                  <br />
+                  <table
+                    style={{
+                      borderCollapse: "collapse",
+                      border: "1px solid black",
+                      margin: "5px auto",
+                    }}
+                  >
+                    <thead>
+                      <tr>
+                        {columnArray.map((col, i) => (
+                          <th style={{ border: "1px solid black" }} key={i}>
+                            {col}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {values.map((v, i) => (
+                        <tr key={i}>
+                          {v.map((value, i) => (
+                            <td style={{ border: "1px solid black" }} key={i}>
+                              {value}
+                            </td>
+                          ))}
+                        </tr>
                       ))}
+                    </tbody>
+                  </table>
                 </div>
               </form>
             </main>
