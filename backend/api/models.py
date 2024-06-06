@@ -15,14 +15,10 @@ class User(AbstractUser):
     
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    full_name = models.CharField(max_length=300)
     bio = models.CharField(max_length=300)
     image = models.ImageField(default="default.jpg", upload_to="user_images")
     verified = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.full_name
+    csv_file = models.FileField(upload_to='csv_files', blank=True)
     
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

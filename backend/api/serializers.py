@@ -4,6 +4,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from api.models import Profile
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +15,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        token['full_name'] = user.profile.full_name
         token['username'] = user.username
         token['email'] = user.email
         token['bio'] = user.profile.bio
@@ -49,4 +49,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
-    
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['csv_files']
