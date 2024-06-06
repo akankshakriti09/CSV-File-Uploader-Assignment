@@ -114,10 +114,7 @@ function Dashboard() {
       <>
         <div className="container-fluid" style={{ paddingTop: "100px" }}>
           <div className="row">
-            <main
-              role="main"
-              className="col pt-3 px-4"
-            >
+            <main role="main" className="col pt-3 px-4">
               <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                 <h1 className="h2">My Dashboard</h1>
                 <span style={{ color: "white" }}>
@@ -134,18 +131,12 @@ function Dashboard() {
                 <input
                   onChange={handleFileChange}
                   id="csvInput"
+                  // name="csv_file"
                   name="file"
                   type="File"
                 />
                 <button>IMPORT CSV</button>
                 <div style={{ marginTop: "3rem" }}>
-                  {/* <ul>
-                    {data?.map(ele => (
-                      <li>{ele.EMPLOYEE_ID} | {ele.FIRST_NAME} | {ele.LAST_NAME} | {ele.EMAIL} | {ele.PHONE_NUMBER} | {ele.JOB_ID} |  {ele.SALARY} | {ele.HIRE_DATE} | {ele.MANAGER_ID} </li>
-                    ))}
-                  </ul> */}
-
-                  <br />
                   <table
                     style={{
                       borderCollapse: "collapse",

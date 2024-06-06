@@ -7,7 +7,7 @@ import Registerpage from "./views/Registerpage"
 import Loginpage from "./views/Loginpage"
 import Dashboard from "./views/Dashboard"
 import Navbar from "./views/Navbar"
-import './App.css';
+import './App.css'
 
 function App() {
   return (
