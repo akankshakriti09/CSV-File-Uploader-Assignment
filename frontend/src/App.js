@@ -8,10 +8,7 @@ import Loginpage from "./views/Loginpage"
 import Dashboard from "./views/Dashboard"
 import Navbar from "./views/Navbar"
 import './App.css'
-<<<<<<< HEAD
-=======
-import { useSaveCSVMutation, useGetCSVQuery } from './services/csvFileApi';
->>>>>>> a4f19a133b5b2b2716cfe741f0b221f009483984
+
 
 function App() {
   return (
